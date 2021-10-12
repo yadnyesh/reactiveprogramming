@@ -19,5 +19,9 @@ class FluxAndMonoServiceTest {
 
     @Test
     void fruitsMono() {
+        var fruitsMono = fluxAndMonoService.fruitsMono();
+        StepVerifier.create(fruitsMono)
+                .expectNext("Mango")
+                .verifyComplete();
     }
 }
