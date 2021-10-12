@@ -12,6 +12,12 @@ public class FluxAndMonoService {
         return Flux.fromIterable(List.of("Apple", "Mango", "Orange", "Banana")).log();
     }
 
+    public Flux<String> fruitsFluxMap() {
+        return Flux.fromIterable(List.of("Apple", "Mango", "Orange", "Banana"))
+                .map(String::toUpperCase)
+                .log();
+    }
+
     public Mono<String> fruitsMono() {
         return Mono.just("Mango").log();
     }
@@ -19,12 +25,10 @@ public class FluxAndMonoService {
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
         fluxAndMonoService.fruitsFlux()
-                .subscribe(s -> {
-                    log.info("s = " + s);
-                });
+                .subscribe(s -> log.info("s = " + s));
         fluxAndMonoService.fruitsMono()
-                .subscribe(s -> {
-                    log.info("Mono | s = " + s);
-                });
+                .subscribe(s -> log.info("Mono | s = " + s));
+        fluxAndMonoService.fruitsFluxMap()
+                .subscribe(s -> log.info("s = " + s));
     }
 }
