@@ -1,7 +1,10 @@
 package io.yadnyesh.reactiveprogramming.service;
 
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,6 +49,30 @@ class FluxAndMonoServiceTest {
         var fruitsFlux = fluxAndMonoService.fruitsFluxFilterAndMap(5);
         StepVerifier.create(fruitsFlux)
                 .expectNext("ORANGE", "BANANA")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxFlatMap() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxFlatMap();
+        StepVerifier.create(fruitsFlux)
+                .expectNextCount(22)
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxFlatMapAsync() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxFlatMapAsync();
+        StepVerifier.create(fruitsFlux)
+                .expectNextCount(22)
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsMonoflatMap() {
+        var fruitsFlux = fluxAndMonoService.fruitsMonoflatMap();
+        StepVerifier.create(fruitsFlux)
+                .expectNextCount(1)
                 .verifyComplete();
     }
 }
