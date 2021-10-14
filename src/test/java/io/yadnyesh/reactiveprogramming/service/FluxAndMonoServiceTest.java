@@ -100,5 +100,11 @@ class FluxAndMonoServiceTest {
                 .verifyComplete();
     }
 
-
+    @Test
+    void fruitsFluxTransformDefaultIfEmpty() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxTransformDefaultIfEmpty(10);
+        StepVerifier.create(fruitsFlux)
+                .expectNext("Default")
+                .verifyComplete();
+    }
 }
