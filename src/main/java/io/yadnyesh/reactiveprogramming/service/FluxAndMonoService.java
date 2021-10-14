@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 @Slf4j
 public class FluxAndMonoService {
@@ -59,6 +60,20 @@ public class FluxAndMonoService {
     public Mono<List<String>> fruitsMonoflatMap() {
         return Mono.just("Mango")
                 .flatMap(s -> Mono.just(List.of(s.split(""))))
+                .log();
+    }
+    public Flux<String> fruitsMonoflatMapMany() {
+        return Mono.just("Mango")
+                .flatMapMany(s -> Flux.just(s.split("")))
+                .log();
+    }
+
+    public Flux<String> fruitsFluxTransform(int number) {
+        Function<Flux<String>,Flux<String>> filterData
+                 = data -> data.filter(s -> s.length() > number);
+
+        return Flux.fromIterable(List.of("Apple", "Mango", "Orange", "Banana"))
+                .transform(filterData)
                 .log();
     }
 

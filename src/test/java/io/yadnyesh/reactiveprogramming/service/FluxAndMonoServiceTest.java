@@ -77,10 +77,28 @@ class FluxAndMonoServiceTest {
     }
 
     @Test
+    void fruitsMonoflatMapMany() {
+        var fruitsFlux = fluxAndMonoService.fruitsMonoflatMapMany();
+        StepVerifier.create(fruitsFlux)
+                .expectNextCount(5)
+                .verifyComplete();
+    }
+
+    @Test
     void fruitsFluxConcatMap() {
         var fruitsFlux = fluxAndMonoService.fruitsFluxConcatMap();
         StepVerifier.create(fruitsFlux)
                 .expectNextCount(22)
                 .verifyComplete();
     }
+
+    @Test
+    void fruitsFluxTransform() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxTransform(5);
+        StepVerifier.create(fruitsFlux)
+                .expectNext("Orange", "Banana")
+                .verifyComplete();
+    }
+
+
 }
