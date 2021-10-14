@@ -107,4 +107,12 @@ class FluxAndMonoServiceTest {
                 .expectNext("Default")
                 .verifyComplete();
     }
+
+    @Test
+    void fruitsFluxSwitchIfEmpty() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxSwitchIfEmpty(8);
+        StepVerifier.create(fruitsFlux)
+                .expectNext("Pineapple", "Jack fruit")
+                .verifyComplete();
+    }
 }
