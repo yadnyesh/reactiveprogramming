@@ -46,6 +46,13 @@ public class FluxAndMonoService {
                 .log();
     }
 
+    public Flux<String> fruitsFluxConcatMap() {
+        return Flux.fromIterable(List.of("Apple", "Mango", "Orange", "Banana"))
+                .concatMap(s -> Flux.just(s.split("")))
+                .delayElements(Duration.ofMillis(new Random().nextInt(1000)))
+                .log();
+    }
+
     public Mono<String> fruitsMono() {
         return Mono.just("Mango").log();
     }

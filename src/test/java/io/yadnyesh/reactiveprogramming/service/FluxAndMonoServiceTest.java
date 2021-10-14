@@ -75,4 +75,12 @@ class FluxAndMonoServiceTest {
                 .expectNextCount(1)
                 .verifyComplete();
     }
+
+    @Test
+    void fruitsFluxConcatMap() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxConcatMap();
+        StepVerifier.create(fruitsFlux)
+                .expectNextCount(22)
+                .verifyComplete();
+    }
 }
