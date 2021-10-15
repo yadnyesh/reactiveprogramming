@@ -105,6 +105,13 @@ public class FluxAndMonoService {
         return Flux.concat(fruits, veggies);
     }
 
+    public Flux<String> fruitsFluxConcatWith() {
+        var fruits = Flux.just("Mango", "Orange");
+        var veggies = Flux.just("Tomato", "Lemon");
+
+        return fruits.concatWith(veggies);
+    }
+
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
         fluxAndMonoService.fruitsFlux()
