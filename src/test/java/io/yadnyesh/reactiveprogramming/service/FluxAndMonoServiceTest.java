@@ -1,12 +1,7 @@
 package io.yadnyesh.reactiveprogramming.service;
 
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FluxAndMonoServiceTest {
 
