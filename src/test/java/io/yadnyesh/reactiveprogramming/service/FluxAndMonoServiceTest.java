@@ -156,4 +156,12 @@ class FluxAndMonoServiceTest {
                 .expectNext("Mango", "Tomato", "Orange", "Lemon")
                 .verifyComplete();
     }
+
+    @Test
+    void fruitsFluxMergeWithSequential() {
+        var fruitAndVeggieFlux = fluxAndMonoService.fruitsFluxMergeWithSequential().log();
+        StepVerifier.create(fruitAndVeggieFlux)
+                .expectNext("Mango", "Orange", "Tomato","Lemon")
+                .verifyComplete();
+    }
 }
