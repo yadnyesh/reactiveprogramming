@@ -132,4 +132,12 @@ class FluxAndMonoServiceTest {
                 .verifyComplete();
     }
 
+
+    @Test
+    void fruitsFluxConcatWithForMono() {
+        var fruitAndVeggieFlux = fluxAndMonoService.fruitsFluxConcatWithForMono().log();
+        StepVerifier.create(fruitAndVeggieFlux)
+                .expectNext("Mango", "Tomato")
+                .verifyComplete();
+    }
 }
