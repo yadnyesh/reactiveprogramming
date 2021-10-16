@@ -1,6 +1,7 @@
 package io.yadnyesh.reactiveprogramming.service;
 
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Hooks;
 import reactor.test.StepVerifier;
 
 class FluxAndMonoServiceTest {
@@ -227,6 +228,7 @@ class FluxAndMonoServiceTest {
 
     @Test
     void fruitFluxDoOnError() {
+        //Hooks.onOperatorDebug();
         var fruitsFlux = fluxAndMonoService.fruitFluxDoOnError().log();
         StepVerifier.create(fruitsFlux)
                 .expectNext("APPLE")
