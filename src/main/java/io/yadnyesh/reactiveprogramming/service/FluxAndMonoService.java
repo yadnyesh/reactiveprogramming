@@ -6,7 +6,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -164,6 +163,16 @@ public class FluxAndMonoService {
                 .map(objects -> objects.getT1() + objects.getT2() + objects.getT3())
                 .log();
     }
+
+    public Flux<String> fruitsFluxFilterDoOn(int number) {
+        return Flux.fromIterable(List.of("Mango", "Orange", "Banana"))
+                .filter(s -> s.length() > number)
+                .doOnNext(s -> log.info("s = " + s))
+                .doOnSubscribe(subscription -> log.info("Subscription: " + subscription.toString()))
+                .doOnComplete(() -> log.info("Completed!"))
+                .log();
+    }
+
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
         fluxAndMonoService.fruitsFlux()

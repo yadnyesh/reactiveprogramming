@@ -146,7 +146,7 @@ class FluxAndMonoServiceTest {
 
     @Test
     void fruitsFluxMergeWith() {
-        var fruitAndVeggieFlux = fluxAndMonoService.fruitsFluxMerge().log();
+        var fruitAndVeggieFlux = fluxAndMonoService.fruitsFluxMergeWith().log();
         StepVerifier.create(fruitAndVeggieFlux)
                 .expectNext("Mango", "Tomato", "Orange", "Lemon")
                 .verifyComplete();
@@ -189,6 +189,14 @@ class FluxAndMonoServiceTest {
         var fruitsFlux = fluxAndMonoService.fruitsMonoZipWith();
         StepVerifier.create(fruitsFlux)
                 .expectNext("MangoTomato")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxFilterDoOn() {
+        var fruitsFlux = fluxAndMonoService.fruitsFluxFilterDoOn(5);
+        StepVerifier.create(fruitsFlux)
+                .expectNext("Orange" , "Banana")
                 .verifyComplete();
     }
 }
