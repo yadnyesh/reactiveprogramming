@@ -159,4 +159,12 @@ class FluxAndMonoServiceTest {
                 .expectNext("Mango", "Orange", "Tomato","Lemon")
                 .verifyComplete();
     }
+
+    @Test
+    void fruitsFluxZip() {
+        var fruitAndVeggieFlux = fluxAndMonoService.fruitsFluxZip().log();
+        StepVerifier.create(fruitAndVeggieFlux)
+                .expectNext("MangoTomato", "OrangeLemon")
+                .verifyComplete();
+    }
 }
