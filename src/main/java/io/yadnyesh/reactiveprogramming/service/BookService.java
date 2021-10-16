@@ -48,7 +48,7 @@ public class BookService {
                     log.error("Exception is: " + throwable);
                     return new BookException( "Exception Occurred while fetching books");
                 })
-                .retry()
+                .retry(3)
                 .log();
     }
 
