@@ -11,7 +11,7 @@ public class BackPressureTest {
     public void testBackPressure() {
         Flux<Integer> integers = Flux.range(1,100).log();
         //integers.subscribe(System.out::println);
-        integers.subscribe(new BaseSubscriber<Integer>() {
+        integers.subscribe(new BaseSubscriber<>() {
             @Override
             protected void hookOnSubscribe(Subscription subscription) {
                 //super.hookOnSubscribe(subscription);
@@ -49,10 +49,8 @@ public class BackPressureTest {
         Flux<Integer> integers = Flux.range(1,100).log();
         //integers.subscribe(System.out::println);
         integers
-                .onBackpressureDrop(integer -> {
-                    System.out.println("Dropped Values -> " + integer);
-                })
-                .subscribe(new BaseSubscriber<Integer>() {
+                .onBackpressureDrop(integer -> System.out.println("Dropped Values -> " + integer))
+                .subscribe(new BaseSubscriber<>() {
             @Override
             protected void hookOnSubscribe(Subscription subscription) {
                 //super.hookOnSubscribe(subscription);
@@ -83,5 +81,45 @@ public class BackPressureTest {
                 super.hookOnCancel();
             }
         });
+    }
+
+    @Test
+    public void testBackPressureBuffer() {
+        Flux<Integer> integers = Flux.range(1,100).log();
+        //integers.subscribe(System.out::println);
+        integers
+                .onBackpressureBuffer(10,
+                        i -> System.out.println("Buffered Value -> " + i))
+                .subscribe(new BaseSubscriber<>() {
+                    @Override
+                    protected void hookOnSubscribe(Subscription subscription) {
+                        //super.hookOnSubscribe(subscription);
+                        request(3);
+                    }
+
+                    @Override
+                    protected void hookOnNext(Integer value) {
+                        //super.hookOnNext(value);
+                        System.out.println("Value: " + value);
+                        if (value == 3)
+                            hookOnCancel();
+                    }
+
+                    @Override
+                    protected void hookOnComplete() {
+                        //super.hookOnComplete();
+                        System.out.println("Execution complete...");
+                    }
+
+                    @Override
+                    protected void hookOnError(Throwable throwable) {
+                        super.hookOnError(throwable);
+                    }
+
+                    @Override
+                    protected void hookOnCancel() {
+                        super.hookOnCancel();
+                    }
+                });
     }
 }
