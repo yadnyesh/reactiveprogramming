@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -147,6 +148,15 @@ public class FluxAndMonoService {
         var fruits = Flux.just("Mango", "Orange");
         var veggies = Flux.just("Tomato", "Lemon");
         return fruits.zipWith(veggies, (first,second) -> first + second).log();
+    }
+
+    public Flux<String > fruitsFluxZipTuple() {
+        var fruits = Flux.just("Mango", "Orange");
+        var veggies = Flux.just("Tomato", "Lemon");
+        var moreVeggies = Flux.just("Potato", "Beans");
+        return Flux.zip(fruits, veggies, moreVeggies)
+                .map(objects -> objects.getT1() + objects.getT2() + objects.getT3())
+                .log();
     }
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
