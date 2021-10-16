@@ -199,4 +199,12 @@ class FluxAndMonoServiceTest {
                 .expectNext("Orange" , "Banana")
                 .verifyComplete();
     }
+
+    @Test
+    void fruitFluxOnErrorReturn() {
+        var fruitsFlux = fluxAndMonoService.fruitFluxOnErrorReturn().log();
+        StepVerifier.create(fruitsFlux)
+                .expectNext("Apple", "Mango", "Orange")
+                .verifyComplete();
+    }
 }

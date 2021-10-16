@@ -173,6 +173,12 @@ public class FluxAndMonoService {
                 .log();
     }
 
+    public Flux<String> fruitFluxOnErrorReturn() {
+        return Flux.just("Apple", "Mango")
+                .concatWith(Flux.error(new RuntimeException("my Exception Occurred")))
+                .onErrorReturn("Orange");
+    }
+
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
         fluxAndMonoService.fruitsFlux()
