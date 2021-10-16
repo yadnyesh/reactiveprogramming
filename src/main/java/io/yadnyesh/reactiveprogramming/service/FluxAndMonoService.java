@@ -205,6 +205,19 @@ public class FluxAndMonoService {
                 });
     }
 
+    public Flux<String> fruitFluxDoOnError() {
+        return Flux.just("Apple", "Mango", "Orange")
+                .map(s -> {
+                    if (s.equalsIgnoreCase("Mango"))
+                        throw new RuntimeException("my Exception with: " + s);
+                    return s.toUpperCase();
+                })
+                .doOnError(throwable ->
+                    log.info("throwable = " + throwable)
+                );
+    }
+
+
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
         fluxAndMonoService.fruitsFlux()

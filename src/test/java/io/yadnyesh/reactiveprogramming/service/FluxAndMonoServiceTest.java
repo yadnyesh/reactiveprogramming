@@ -224,4 +224,13 @@ class FluxAndMonoServiceTest {
                 .expectError(IllegalStateException.class)
                 .verify();
     }
+
+    @Test
+    void fruitFluxDoOnError() {
+        var fruitsFlux = fluxAndMonoService.fruitFluxDoOnError().log();
+        StepVerifier.create(fruitsFlux)
+                .expectNext("APPLE")
+                .expectError(RuntimeException.class)
+                .verify();
+    }
 }
