@@ -36,6 +36,22 @@ public class BookService {
                 .log();
     }
 
+    public Flux<Book> getBooksRetry() {
+        Flux<BookInfo> bookInfoFlux = bookInfoService.getBooks();
+        return bookInfoFlux
+                .flatMap(bookInfo -> {
+                    Mono<List<Review>> reviews = reviewService.getReviews(bookInfo.getBookId()).collectList();
+                    return reviews
+                            .map(review -> new Book(bookInfo, review));
+                })
+                .onErrorMap(throwable -> {
+                    log.error("Exception is: " + throwable);
+                    return new BookException( "Exception Occurred while fetching books");
+                })
+                .retry()
+                .log();
+    }
+
     public Mono<Book> getBookById(long bookId) {
         var book = bookInfoService.getBookInfoById(bookId);
         var review = reviewService.getReviews(bookId).collectList();

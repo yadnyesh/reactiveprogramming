@@ -45,6 +45,18 @@ class BookServiceMockTest {
     }
 
     @Test
+    void getBooksMockOnErrorRetry() {
+        Mockito.when(bookInfoService.getBooks())
+                .thenCallRealMethod();
+        Mockito.when(reviewService.getReviews(Mockito.anyLong()))
+                .thenThrow(new IllegalStateException("exception when testing"));
+        var book = bookService.getBooksRetry();
+        StepVerifier.create(book)
+                .expectError(BookException.class)
+                .verify();
+    }
+
+    @Test
     void getBookById() {
     }
 }
