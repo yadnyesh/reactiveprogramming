@@ -122,4 +122,45 @@ public class BackPressureTest {
                     }
                 });
     }
+
+    @Test
+    public void testBackPressureError() {
+        Flux<Integer> integers = Flux.range(1,100).log();
+        //integers.subscribe(System.out::println);
+        integers
+                .onBackpressureError()
+                .subscribe(new BaseSubscriber<>() {
+                    @Override
+                    protected void hookOnSubscribe(Subscription subscription) {
+                        //super.hookOnSubscribe(subscription);
+                        request(3);
+                    }
+
+                    @Override
+                    protected void hookOnNext(Integer value) {
+                        //super.hookOnNext(value);
+                        System.out.println("Value: " + value);
+                        if (value == 3)
+                            hookOnCancel();
+                    }
+
+                    @Override
+                    protected void hookOnComplete() {
+                        //super.hookOnComplete();
+                        System.out.println("Execution complete...");
+                    }
+
+                    @Override
+                    protected void hookOnError(Throwable throwable) {
+                        //super.hookOnError(throwable);
+                        System.out.println("throwable = " + throwable);
+
+                    }
+
+                    @Override
+                    protected void hookOnCancel() {
+                        super.hookOnCancel();
+                    }
+                });
+    }
 }
