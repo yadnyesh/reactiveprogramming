@@ -142,6 +142,12 @@ public class FluxAndMonoService {
         var veggies = Flux.just("Tomato", "Lemon");
         return Flux.zip(fruits, veggies, (first,second) -> first + second).log();
     }
+
+    public Flux<String > fruitsFluxZipWith() {
+        var fruits = Flux.just("Mango", "Orange");
+        var veggies = Flux.just("Tomato", "Lemon");
+        return fruits.zipWith(veggies, (first,second) -> first + second).log();
+    }
     public static void main(String[] args) {
         FluxAndMonoService fluxAndMonoService = new FluxAndMonoService();
         fluxAndMonoService.fruitsFlux()
