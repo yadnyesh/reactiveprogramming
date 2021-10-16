@@ -3,6 +3,7 @@ package io.yadnyesh.reactiveprogramming.service;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Hooks;
 import reactor.test.StepVerifier;
+import reactor.tools.agent.ReactorDebugAgent;
 
 class FluxAndMonoServiceTest {
 
@@ -219,6 +220,8 @@ class FluxAndMonoServiceTest {
 
     @Test
     void fruitFluxOnErrorMap() {
+        ReactorDebugAgent.init();
+        ReactorDebugAgent.processExistingClasses();
         var fruitsFlux = fluxAndMonoService.fruitFluxOnErrorMap().log();
         StepVerifier.create(fruitsFlux)
                 .expectNext("APPLE")
